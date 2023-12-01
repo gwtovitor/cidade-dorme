@@ -48,7 +48,7 @@ const PlayerNames = ({ route, navigation }) => {
         if (isEverythingFilled && playerNames.length == playerNumber ) {
             navigation.navigate('exibirFuncoes', {playerObj:playerNames })
         } else {
-            setErrorMsg("Por favor, preencha todos os nomes ");
+            // setErrorMsg("Por favor, preencha todos os nomes ");
         }
     };
 

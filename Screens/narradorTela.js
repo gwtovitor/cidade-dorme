@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, View, Text, Button } from "react-native";
 import selectPlayersStyles from "./styles/selectPlayers.styles";
-
+import { CommonActions } from '@react-navigation/native';
 const NarradorTela = ({ route, navigation }) => {
     const { playerObj } = route.params;
     const [isExibindo, setIsExibindo] = useState(false);
@@ -13,9 +13,17 @@ const NarradorTela = ({ route, navigation }) => {
         } else {
             return name
         }
-
-
     }
+    const handleNavigateToMenu = () => {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    { name: 'Menu' },
+                ],
+            })
+        );
+    };
     return (
         <ScrollView contentContainerStyle={[selectPlayersStyles.scrollContainer]}>
             <View style={[selectPlayersStyles.container]}>
@@ -32,7 +40,11 @@ const NarradorTela = ({ route, navigation }) => {
                     </>
                 )}
 
-                {isExibindo && <Button onPress={() => { navigation.navigate('menuVolta', { playerObj: playerObj }) }} title='Jogar novamente com os mesmos jogadores ?' />}
+                {isExibindo && <>
+                    <Button onPress={() => { navigation.navigate('menuVolta', { playerObj: playerObj }) }} title='Jogar novamente com os mesmos jogadores ?' />
+                    <Text></Text>
+                    <Button style={{ marginVertical: 12 }} onPress={() => { handleNavigateToMenu() }} title='Retornar para o Menu' />
+                </>}
             </View>
         </ScrollView>
     );

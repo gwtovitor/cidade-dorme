@@ -119,8 +119,8 @@ export default function MenuVolta({ route, navigation }) {
                 <View style={{ marginTop: 50 }}>
                     
                     {newPlayerObj.map((player, index) => (
-                        <View key={index.toString()} style={{ marginTop: 10 }}>
-                            <Text style={{ color: 'white' }}>{`Nome: ${player.nome}`}</Text>
+                        <View key={index.toString()} style={selectPlayersStyles.listPlayer}>
+                            <Text style={{ color: 'white', marginHorizontal: 12 }}>{`Nome: ${player.nome}`}</Text>
                             <Button title='remover Jogador' onPress={() => { removerJogador(index) }}></Button>
                         </View>
                     ))}

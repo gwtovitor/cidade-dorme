@@ -45,6 +45,13 @@ const selectPlayersStyles = StyleSheet.create({
         color: 'white',
         margin: 10,
         fontSize: 30
+    },
+    listPlayer:{
+        marginTop: 10, 
+        display: 'flex', 
+        flexDirection:'row',
+        justifyContent: 'center',
+        alignItems:'center' 
     }
 })
 
