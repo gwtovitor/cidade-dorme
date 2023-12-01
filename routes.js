@@ -4,6 +4,7 @@ import Menu from './Screens/Menu';
 import ExibirFuncoes from './Screens/ExibirFuncoes';
 import PlayerNames from './Screens/PlayerNames';
 import NarradorTela from './Screens/narradorTela';
+import MenuVolta from './Screens/MenuVolta';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,13 @@ function Navigation() {
           headerShown: false
         }}
         name="narradorTela" component={NarradorTela} />
+      <Stack.Screen
+        options={{
+          headerTransparent: true,
+          title: '',
+          headerShown: false
+        }}
+        name="menuVolta" component={MenuVolta} />
     </Stack.Navigator>
   )
 }

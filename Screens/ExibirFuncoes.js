@@ -8,6 +8,7 @@ export default function ExibirFuncoes({ route, navigation }) {
     const { playerObj } = route.params
     const [index, setIndex] = useState(0)
     const [exibindo, setExibindo] = useState(false)
+    
     const avançar = () => {
         setExibindo(false)
         console.log(playerObj.length)
@@ -15,7 +16,7 @@ export default function ExibirFuncoes({ route, navigation }) {
             setIndex(index + 1)
             console.log(index)
         }else{
-            navigation.navigate('narradorTela', {playerObj: playerObj})
+            navigation.replace('narradorTela', {playerObj: playerObj})
         }
         return
     }

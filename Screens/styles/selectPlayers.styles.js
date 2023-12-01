@@ -26,6 +26,7 @@ const selectPlayersStyles = StyleSheet.create({
     btn:{
         backgroundColor: 'blue',
         marginTop: 20,
+        marginBottom: 50,
         width: '30%',
         display: 'flex',
         justifyContent:'center',

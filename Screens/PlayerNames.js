@@ -6,8 +6,8 @@ const PlayerNames = ({ route, navigation }) => {
     const { playerNumber, roles } = route.params;
     const [playerNames, setPlayerNames] = useState(Array(playerNumber).fill({ nome: '', funcao: '' }));
     const [errorMsg, setErrorMsg] = useState('')
+    
     const shuffleArray = (array) => {
-        // Função para embaralhar um array usando o algoritmo de Fisher-Yates
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -36,14 +36,12 @@ const PlayerNames = ({ route, navigation }) => {
     };
     
     
-
     const handlePlayerNameChange = (index, text) => {
         const newPlayerNames = [...playerNames];
         newPlayerNames[index] = { nome: text, funcao: '' };
         setPlayerNames(newPlayerNames);
     };
 
-  
     const concluir = () => {
         randomizarFuncoes();
         const isEverythingFilled = playerNames.every(player => player.nome !== '' && player.funcao !== '');
