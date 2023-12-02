@@ -13,7 +13,7 @@ const menuStyles = StyleSheet.create({
         color:'white',
     },
     logo:{
-        width: '90%',
+        width: '100%',
         objectFit: 'contain'
     }
 })

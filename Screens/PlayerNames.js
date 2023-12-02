@@ -56,10 +56,10 @@ const PlayerNames = ({ route, navigation }) => {
         <ScrollView contentContainerStyle={[selectPlayersStyles.scrollContainer]}>
             <View style={[selectPlayersStyles.container]}>
                 {Array.from({ length: playerNumber }).map((_, index) => (
-                    <View key={index.toString()} style={{ marginBottom: 10 }}>
+                    <View key={index.toString()} style={selectPlayersStyles.viewInput}>
                         <TextInput
                             placeholder={`Nome do Jogador ${index + 1}`}
-                            style={{ backgroundColor: 'white', borderBottomWidth: 1, marginBottom: 5, padding: 5 }}
+                            style={{ backgroundColor: 'white', borderBottomWidth: 1, marginBottom: 5, padding: 5, width: '80%' }}
                             onChangeText={(text) => handlePlayerNameChange(index, text)}
                         />
                     </View>

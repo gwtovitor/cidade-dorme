@@ -8,14 +8,14 @@ export default function SelectPlayers({ navigation }) {
     const [avancar, setAvancar] = useState(false)
     const [playerNumber, setPlayerNumber] = useState('')
     const [objectPlayers, setObject] = useState({
-        Assassino: 0,
-        Anjo: 0,
-        Detetive: 0,
-        Bruxo: 0,
-        Bobo: 0,
-        Padre: 0,
-        AldeaoAssassino: 0,
-        DamaNoite: 0,
+        Assassino: '',
+        Anjo: '',
+        Detetive: '',
+        Bruxo: '',
+        Bobo: '',
+        Padre: '',
+        AldeaoAssassino: '',
+        DamaNoite: '',
     })
     const VerifyPlayersNumber = () => {
 

@@ -52,7 +52,14 @@ const selectPlayersStyles = StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'center',
         alignItems:'center' 
-    }
+    },
+    viewInput:{
+        marginBottom: 10, 
+        width:'100%',
+        display: 'flex',
+        alignItems:'center'
+    },
+ 
 })
 
 export default selectPlayersStyles
