@@ -8,7 +8,6 @@ export default function ExibirFuncoes({ route, navigation }) {
     const { playerObj } = route.params
     const [index, setIndex] = useState(0)
     const [exibindo, setExibindo] = useState(false)
-    
     const avançar = () => {
         setExibindo(false)
         console.log(playerObj.length)

@@ -3,11 +3,10 @@ import { StyleSheet } from "react-native"
 const selectPlayersStyles = StyleSheet.create({
     container:{
         backgroundColor: 'black',
-        display: 'flex',
-        justifyContent:'center',
+        flex: 1, // Use flex: 1 para preencher toda a altura disponível
+        justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 50,
-        height: '100%',
         width: '100%'
     },
     text:{
@@ -17,7 +16,7 @@ const selectPlayersStyles = StyleSheet.create({
     input:{
         backgroundColor: 'white',
         width: "80%",
-        height: '5%',
+        // height: '5%',
         justifyContent:'center',
         display:'flex',
         alignItems:'center'
@@ -32,7 +31,7 @@ const selectPlayersStyles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         borderRadius: 5,
-        height: '5%'
+        height: 40
     },
     errorMsg: {
         color: 'red',
@@ -52,6 +51,7 @@ const selectPlayersStyles = StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'center',
         alignItems:'center' 
+        
     },
     viewInput:{
         marginBottom: 10, 

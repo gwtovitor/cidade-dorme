@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native"
 
 const instrucoesStyle = StyleSheet.create({
+    scrollContainer: {
+        flexGrow: 1,
+    },
+    
     container: {
         backgroundColor: 'black',
         display: 'flex',
@@ -16,12 +20,10 @@ const instrucoesStyle = StyleSheet.create({
         // whiteSpace: 'pre-line',
     },
     input: {
-        backgroundColor: 'white',
-        width: "80%",
-        height: '5%',
-        justifyContent: 'center',
-        display: 'flex',
-        alignItems: 'center'
+     backgroundColor: 'white',
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
 
     },
     btn: {
@@ -33,7 +35,7 @@ const instrucoesStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
-        height: '5%'
+        height: 50, // Ajuste a altura conforme necessário ou use 'auto'
     },
     errorMsg: {
         color: 'red',

@@ -11,6 +11,7 @@ export default function MenuVolta({ route, navigation }) {
     const [avancar, setAvancar] = useState(true)
     const [playerNumber, setPlayerNumber] = useState(playerObj.length)
     const [objectOk, setObjectOk] = useState([])
+    const [novoJogador, setNovoJogador] = useState('')
     const [objectPlayers, setObject] = useState({
         Assassino: 0,
         Anjo: 0,
@@ -85,12 +86,14 @@ export default function MenuVolta({ route, navigation }) {
             }
         }
         const funcoesEmbaralhadas = shuffleArray(funcoesNecessarias);
+        console.log(funcoesEmbaralhadas)
         const jogadoresEmbaralhados = shuffleArray(newPlayerObj);
         const novosPlayerNames = jogadoresEmbaralhados.map((player, index) => {
             const funcao = funcoesEmbaralhadas[index];
             return { nome: player.nome, funcao: funcao || 'Aldeão' };
         });
-        setObjectOk(novosPlayerNames);
+        const newArray = shuffleArray(novosPlayerNames)
+        setObjectOk(newArray);
     };
 
     useEffect(() => {
@@ -109,9 +112,17 @@ export default function MenuVolta({ route, navigation }) {
             return
         }
         if (avancar) {
-            navigation.navigate('exibirFuncoes', { playerObj: objectOk })
+            navigation.replace('exibirFuncoes', { playerObj: objectOk })
         }
     }
+    const adicionaJogador = () => {
+        // Adiciona um novo jogador com nome e função inicializados
+        const jogador = {"funcao": "", "nome": novoJogador};
+        // Atualiza o estado com o novo jogador
+        setNewPlayerObj(prevPlayers => [...prevPlayers, jogador]);
+
+        setNovoJogador('');
+      };
 
     return (
         <ScrollView contentContainerStyle={selectPlayersStyles.scrollContainer}>
@@ -125,6 +136,15 @@ export default function MenuVolta({ route, navigation }) {
                         </View>
                     ))}
                 </View>
+                <Text style={[selectPlayersStyles.text]}>Adicionar Jogador ?</Text>
+                <TextInput
+                    placeholder="Nome do Jogador"
+                    style={[selectPlayersStyles.input]}
+                    onChangeText={(text)=>{setNovoJogador(text)}}
+                    value={novoJogador}
+                />
+                <Text></Text>
+                <Button title='Adicionar' onPress={()=>{adicionaJogador()}}></Button>
                 <Text style={[selectPlayersStyles.text]}>Numero de Assassinos 🔪</Text>
                 <TextInput
                     keyboardType="numeric"
