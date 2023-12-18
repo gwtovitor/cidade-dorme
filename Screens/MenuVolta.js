@@ -25,26 +25,20 @@ export default function MenuVolta({ route, navigation }) {
 
     const verificarFuncaoValida = (lista) => {
         if (!lista || lista.length === 0) {
-            // Retorna falso se a lista for inválida ou vazia
             return false;
         }
-
-        // Verifica se todos os itens têm "funcao" diferente de string vazia
         return lista.every(item => item.funcao !== '');
     };
 
     const removerJogador = (index) => {
-        // Crie uma cópia da matriz playerObj
         const novaListaJogadores = [...newPlayerObj];
-        // Remova o jogador pelo índice
         novaListaJogadores.splice(index, 1);
-        // Atualize o estado com a nova lista de jogadores
+
         setNewPlayerObj(novaListaJogadores);
+        console.log(novaListaJogadores)
     };
 
     const VerifyPlayersNumber = () => {
-
-        // Calcular a soma dos valores restantes
         const sumOfRoles = Object.values(objectPlayers).reduce(
             (acc, value) => acc + value,
             0
@@ -65,7 +59,6 @@ export default function MenuVolta({ route, navigation }) {
     };
 
     const shuffleArray = (array) => {
-        // Função para embaralhar um array usando o algoritmo de Fisher-Yates
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -74,11 +67,7 @@ export default function MenuVolta({ route, navigation }) {
     };
 
     const randomizarFuncoes = () => {
-        // const novaLista = playerObj.map(item => ({ ...item, funcao: '' }));
-        // setNewPlayerObj(novaLista);
-
         const funcoesDisponiveis = Object.entries(objectPlayers);
-        // console.log(funcoesDisponiveis)
         const funcoesNecessarias = [];
         for (const [funcao, quantidade] of funcoesDisponiveis) {
             for (let i = 0; i < quantidade; i++) {
@@ -86,14 +75,14 @@ export default function MenuVolta({ route, navigation }) {
             }
         }
         const funcoesEmbaralhadas = shuffleArray(funcoesNecessarias);
-        console.log(funcoesEmbaralhadas)
         const jogadoresEmbaralhados = shuffleArray(newPlayerObj);
         const novosPlayerNames = jogadoresEmbaralhados.map((player, index) => {
             const funcao = funcoesEmbaralhadas[index];
-            return { nome: player.nome, funcao: funcao || 'Aldeão' };
+            return { nome: player.nome, funcao: funcao || 'Aldeão', pontos: player.pontos };
         });
         const newArray = shuffleArray(novosPlayerNames)
         setObjectOk(newArray);
+        setAvancar(true)
     };
 
     useEffect(() => {
@@ -106,29 +95,28 @@ export default function MenuVolta({ route, navigation }) {
             [field]: parseInt(text) || 0,
         }));
     };
-    const goToNext = () => {
-        randomizarFuncoes()
-        if (objectOk.length == 0) {
-            return
-        }
-        if (avancar) {
+
+    useEffect(() => {
+        if (objectOk.length > 0) {
             navigation.replace('exibirFuncoes', { playerObj: objectOk })
         }
-    }
-    const adicionaJogador = () => {
-        // Adiciona um novo jogador com nome e função inicializados
-        const jogador = {"funcao": "", "nome": novoJogador};
-        // Atualiza o estado com o novo jogador
-        setNewPlayerObj(prevPlayers => [...prevPlayers, jogador]);
+    }, [objectOk])
 
+    const goToNext = () => {
+        randomizarFuncoes()
+    }
+
+    const adicionaJogador = () => {
+        const jogador = { "funcao": "", "nome": novoJogador, pontos: 0 };
+        setNewPlayerObj(prevPlayers => [...prevPlayers, jogador]);
         setNovoJogador('');
-      };
+    };
 
     return (
         <ScrollView contentContainerStyle={selectPlayersStyles.scrollContainer}>
             <View style={[selectPlayersStyles.container]}>
                 <View style={{ marginTop: 50 }}>
-                    
+
                     {newPlayerObj.map((player, index) => (
                         <View key={index.toString()} style={selectPlayersStyles.listPlayer}>
                             <Text style={{ color: 'white', marginHorizontal: 12 }}>{`Nome: ${player.nome}`}</Text>
@@ -140,11 +128,11 @@ export default function MenuVolta({ route, navigation }) {
                 <TextInput
                     placeholder="Nome do Jogador"
                     style={[selectPlayersStyles.input]}
-                    onChangeText={(text)=>{setNovoJogador(text)}}
+                    onChangeText={(text) => { setNovoJogador(text) }}
                     value={novoJogador}
                 />
                 <Text></Text>
-                <Button title='Adicionar' onPress={()=>{adicionaJogador()}}></Button>
+                <Button title='Adicionar' onPress={() => { adicionaJogador() }}></Button>
                 <Text style={[selectPlayersStyles.text]}>Numero de Assassinos 🔪</Text>
                 <TextInput
                     keyboardType="numeric"

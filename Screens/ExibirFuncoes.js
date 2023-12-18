@@ -10,10 +10,8 @@ export default function ExibirFuncoes({ route, navigation }) {
     const [exibindo, setExibindo] = useState(false)
     const avançar = () => {
         setExibindo(false)
-        console.log(playerObj.length)
         if(index <= playerObj.length - 2){
             setIndex(index + 1)
-            console.log(index)
         }else{
             navigation.replace('narradorTela', {playerObj: playerObj})
         }
@@ -29,7 +27,6 @@ export default function ExibirFuncoes({ route, navigation }) {
         }  
     }
     const functionEmoji = (name)=>{
-        console.log(name)
         if(name == 'AldeaoAssassino'){
             return '🧟'
         }else if(name == 'DamaNoite'){

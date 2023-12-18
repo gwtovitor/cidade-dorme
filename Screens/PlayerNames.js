@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, TextInput, Text, Button } from "react-native";
 import selectPlayersStyles from "./styles/selectPlayers.styles";
 
 const PlayerNames = ({ route, navigation }) => {
     const { playerNumber, roles } = route.params;
-    const [playerNames, setPlayerNames] = useState(Array(playerNumber).fill({ nome: '', funcao: '' }));
+    const [playerNames, setPlayerNames] = useState(Array(playerNumber).fill({ nome: '', funcao: '', pontos: 0 }));
     const [errorMsg, setErrorMsg] = useState('')
-    
+    const [avancar, setAvancar] = useState(false)
+
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -17,7 +18,7 @@ const PlayerNames = ({ route, navigation }) => {
 
     const randomizarFuncoes = () => {
         const funcoesDisponiveis = Object.entries(roles);
-    
+
         const funcoesNecessarias = [];
         for (const [funcao, quantidade] of funcoesDisponiveis) {
             for (let i = 0; i < quantidade; i++) {
@@ -25,31 +26,32 @@ const PlayerNames = ({ route, navigation }) => {
             }
         }
         const funcoesEmbaralhadas = shuffleArray(funcoesNecessarias);
-    
+
         const jogadoresEmbaralhados = shuffleArray(playerNames);
-    
+
         const novosPlayerNames = jogadoresEmbaralhados.map((player, index) => {
             const funcao = funcoesEmbaralhadas[index];
-            return { nome: player.nome, funcao: funcao || 'Aldeão' };
+            return { nome: player.nome, funcao: funcao || 'Aldeão', pontos: 0 };
         });
+        // const finalNamePlayers = shuffleArray(novosPlayerNames)
         setPlayerNames(novosPlayerNames);
     };
-    
-    
+
+
     const handlePlayerNameChange = (index, text) => {
         const newPlayerNames = [...playerNames];
-        newPlayerNames[index] = { nome: text, funcao: '' };
+        newPlayerNames[index] = { nome: text, funcao: '', pontos: 0 };
         setPlayerNames(newPlayerNames);
     };
+    useEffect(() => {
+        if (avancar) {
+            navigation.navigate('exibirFuncoes', { playerObj: playerNames })
+        }
+    }, [playerNames])
 
     const concluir = () => {
         randomizarFuncoes();
-        const isEverythingFilled = playerNames.every(player => player.nome !== '' && player.funcao !== '');
-        if (isEverythingFilled && playerNames.length == playerNumber ) {
-            navigation.navigate('exibirFuncoes', {playerObj:playerNames })
-        } else {
-            // setErrorMsg("Por favor, preencha todos os nomes ");
-        }
+        setAvancar(true)
     };
 
     return (

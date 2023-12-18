@@ -6,6 +6,7 @@ import PlayerNames from './Screens/PlayerNames';
 import NarradorTela from './Screens/narradorTela';
 import MenuVolta from './Screens/MenuVolta';
 import Instruções from './Screens/Instrucoes';
+import RankingScreen from './Screens/RankingScreen';
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,13 @@ function Navigation() {
           headerShown: false
         }}
         name="instrucoes" component={Instruções} />
+      <Stack.Screen
+        options={{
+          headerTransparent: true,
+          title: '',
+          headerShown: false
+        }}
+        name="ranking" component={RankingScreen} />
     </Stack.Navigator>
   )
 }

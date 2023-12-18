@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, View, Text, Button } from "react-native";
 import selectPlayersStyles from "./styles/selectPlayers.styles";
 import { CommonActions } from '@react-navigation/native';
+
+
 const NarradorTela = ({ route, navigation }) => {
+
     const { playerObj } = route.params;
+    const [objectPlayer, setObjectPlayer] = useState(playerObj)
     const [isExibindo, setIsExibindo] = useState(false);
+    const [navigate, setNavigate] = useState(false);
+    const [playerList, setPlayerList] = useState(playerObj)
+
+
+    useEffect(() => {
+        setPlayerList(playerObj)
+    }, [playerObj])
+
     const functionName = (name) => {
         if (name == 'AldeaoAssassino') {
             return 'Aldeão Assassino'
@@ -14,6 +26,7 @@ const NarradorTela = ({ route, navigation }) => {
             return name
         }
     }
+
     const handleNavigateToMenu = () => {
         navigation.dispatch(
             CommonActions.reset({
@@ -24,34 +37,69 @@ const NarradorTela = ({ route, navigation }) => {
             })
         );
     };
-    const functionEmoji = (name)=>{
-        if(name == 'AldeaoAssassino'){
+    const handleNavigateToRanking = () => {
+        if (playerList[0].funcao === "Assassino") {
+            const updatedPlayers = objectPlayer.map((player) => {
+                if (player.funcao === "Assassino") {
+                    return { ...player, pontos: player.pontos + 5 };
+                }
+                return player;
+            });
+            setObjectPlayer(updatedPlayers);
+        } else if (playerList[0].funcao === "Bobo") {
+            const updatedPlayers = objectPlayer.map((player) => {
+                if (player.funcao === "Bobo") {
+                    return { ...player, pontos: player.pontos + 10 };
+                }
+                return player;
+            });
+            setObjectPlayer(updatedPlayers);
+        } else {
+            const updatedPlayers = objectPlayer.map((player) => {
+                if (player.funcao !== "Bobo" && player.funcao !== "Assassino") {
+                    return { ...player, pontos: player.pontos + 2 };
+                }
+                return player;
+            });
+            setObjectPlayer(updatedPlayers);
+        }
+        setNavigate(true)
+    };
+
+    useEffect(() => {
+        if (navigate) navigation.navigate('ranking', { playerObj: objectPlayer, btnMenu: true });
+
+    }, [objectPlayer]);
+
+
+    const functionEmoji = (name) => {
+        if (name == 'AldeaoAssassino') {
             return '🧟'
-        }else if(name == 'DamaNoite'){
+        } else if (name == 'DamaNoite') {
             return '💃'
-        }else if(name == 'Padre'){
+        } else if (name == 'Padre') {
             return '⛪'
         }
-        else if(name == 'Bobo'){
+        else if (name == 'Bobo') {
             return '🤡'
         }
-        else if(name == 'Bruxo'){
+        else if (name == 'Bruxo') {
             return '🧙‍♂️'
         }
-        else if(name == 'Detetive'){
+        else if (name == 'Detetive') {
             return '🕵️'
         }
-        else if(name == 'Anjo'){
+        else if (name == 'Anjo') {
             return '👼'
         }
-        else if(name == 'Assassino'){
+        else if (name == 'Assassino') {
             return '🔪'
         }
-        else if(name == 'Aldeão'){
+        else if (name == 'Aldeão') {
             return '🏠'
         }
     }
-    const returnColors = (funcao)=>{
+    const returnColors = (funcao) => {
         if (funcao == 'Aldeão') return '#229A00'
         if (funcao == 'Padre') return '#474a51'
         if (funcao == 'Assassino') return 'red'
@@ -62,14 +110,49 @@ const NarradorTela = ({ route, navigation }) => {
         if (funcao == 'DamaNoite') return '#4B0082'
         if (funcao == 'Bruxo') return 'black'
     }
+
+    const handleRemovePlayer = (index) => {
+        const updatedPlayers = [...playerList];
+        updatedPlayers.splice(index, 1);
+        setPlayerList(updatedPlayers);
+    };
+
+    const handleTransformPlayer = (playerName) => {
+        const updatedPlayers = objectPlayer.map((player) => {
+            if (player.nome === playerName) {
+                if (player.funcao === 'AldeaoAssassino') {
+                    return { ...player, funcao: 'Assassino' };
+                }
+            }
+            return player;
+        });
+        setObjectPlayer(updatedPlayers);
+
+        // Atualize o estado playerList, se necessário
+        const updatedPlayerList = playerList.map((player) => {
+            if (player.nome === playerName && player.funcao === 'AldeaoAssassino') {
+                return { ...player, funcao: 'Assassino' };
+            }
+            return player;
+        });
+        setPlayerList(updatedPlayerList);
+    };
+
     return (
         <ScrollView contentContainerStyle={[selectPlayersStyles.scrollContainer]}>
+           
             <View style={[selectPlayersStyles.container]}>
+            <Button onPress={() => { navigation.push('ranking', { playerObj: objectPlayer, btnMenu: false }); }} title="Ranking"></Button>
+              <Text></Text>
                 {isExibindo ? (
-                    playerObj.map((player, index) => (
-                        <View key={index.toString()} style={{ marginBottom: 10, width:'100%', backgroundColor:returnColors(player.funcao)}}>
-                            <Text style={{ color: returnColors(player.funcao) == 'white' ? 'black':'white', fontSize: 17 }}>{`Nome: ${player.nome}, Função: ${functionName(player.funcao)}` + ' ' + functionEmoji(player.funcao)}</Text>
+                    playerList.map((player, index) => (
+                        <View key={index.toString()} style={{ marginBottom: 10, width: '100%', backgroundColor: returnColors(player.funcao), justifyContent: 'space-around', display: 'flex', alignItems: 'center' }}>
+                            <Text style={{ color: returnColors(player.funcao) == 'white' ? 'black' : 'white', fontSize: 17 }}>{`Nome: ${player.nome}, Função: ${functionName(player.funcao)}` + functionEmoji(player.funcao)}</Text>
                             <Text></Text>
+                            <Text style={{ color: returnColors(player.funcao) == 'white' ? 'black' : 'white', fontSize: 17 }}>{`Pontos: ${player.pontos}`}</Text>
+                            <Button onPress={() => { handleRemovePlayer(index) }} title="Remover Jogador"></Button>
+                            <Text></Text>
+                            {player.funcao == 'AldeaoAssassino' && <Button onPress={() => { handleTransformPlayer(player.nome) }} title="Transformar"></Button>}
                         </View>
                     ))
                 ) : (
@@ -80,7 +163,7 @@ const NarradorTela = ({ route, navigation }) => {
                 )}
 
                 {isExibindo && <>
-                    <Button onPress={() => { navigation.navigate('menuVolta', { playerObj: playerObj }) }} title='Jogar novamente com os mesmos jogadores ?' />
+                    <Button onPress={() => { handleNavigateToRanking() }} title='Jogar novamente com os mesmos jogadores ?' />
                     <Text></Text>
                     <Button style={{ marginVertical: 12 }} onPress={() => { handleNavigateToMenu() }} title='Retornar para o Menu' />
                 </>}
